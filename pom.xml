@@ -19,6 +19,7 @@
         <module>spring-resteasy</module>
         <module>app-client</module>
         <module>spring-boot</module>
+        <module>mbean</module>
     </modules>
 
     <dependencyManagement>
@@ -107,11 +108,24 @@
                 <artifactId>spring-web</artifactId>
                 <version>5.0.0.RELEASE</version>
             </dependency>
+            <!-- Java EE -->
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>3.0.0-M4</version>
+                <scope>provided</scope>
+            </dependency>
 
             <!--  Test   -->
             <dependency>
                 <groupId>org.jboss.arquillian.junit</groupId>
                 <artifactId>arquillian-junit-container</artifactId>
+                <version>1.6.0.Final</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.arquillian.protocol</groupId>
+                <artifactId>arquillian-protocol-servlet</artifactId>
                 <version>1.6.0.Final</version>
                 <scope>test</scope>
             </dependency>
