@@ -18,6 +18,7 @@
     <modules>
         <module>spring-resteasy</module>
         <module>app-client</module>
+        <module>spring-boot</module>
     </modules>
 
     <dependencyManagement>
