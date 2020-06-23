@@ -1,7 +1,7 @@
 package com.example.demo.cdi.servlet;
 
-import jakarta.inject.Inject;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/helloworld")
+@WebServlet("/hello/world")
 public class HelloServiceServlet extends HttpServlet {
 
     static String PAGE_HEADER = "<html><head><title>helloworld</title></head><body>";
