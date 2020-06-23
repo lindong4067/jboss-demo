@@ -1,11 +1,12 @@
 package com.example.demo.mbean.webapp.util;
 
-import jakarta.enterprise.context.spi.CreationalContext;
-import jakarta.enterprise.event.Observes;
-import jakarta.enterprise.inject.spi.Bean;
-import jakarta.enterprise.inject.spi.BeanManager;
-import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
-import jakarta.enterprise.inject.spi.Extension;
+
+import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.spi.Bean;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.BeforeBeanDiscovery;
+import javax.enterprise.inject.spi.Extension;
 
 public class CDIExtension implements Extension {
     private static BeanManager beanManager;

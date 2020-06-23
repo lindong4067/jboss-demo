@@ -1,10 +1,10 @@
 package com.example.demo.mbean.webapp.mbean;
 
 import com.example.demo.mbean.webapp.service.HelloService;
-import jakarta.inject.Inject;
 
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Singleton
