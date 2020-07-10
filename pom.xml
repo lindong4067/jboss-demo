@@ -25,6 +25,7 @@
         <module>cdi-rest</module>
         <module>jms</module>
         <module>modules</module>
+        <module>modules-export</module>
     </modules>
 
     <dependencyManagement>
