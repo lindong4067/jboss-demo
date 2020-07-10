@@ -24,6 +24,7 @@
         <module>cdi-servlet</module>
         <module>cdi-rest</module>
         <module>jms</module>
+        <module>modules</module>
     </modules>
 
     <dependencyManagement>
