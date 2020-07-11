@@ -22,15 +22,15 @@
 
     <files>
         <file>
-            <source>${project.basedir}/../A/target/A.jar</source>
+            <source>${project.basedir}/../modules-export-A/target/A.jar</source>
             <outputDirectory>modules/A/main</outputDirectory>
         </file>
         <file>
-            <source>${project.basedir}/../B/target/B.jar</source>
+            <source>${project.basedir}/../modules-export-B/target/B.jar</source>
             <outputDirectory>modules/B/main</outputDirectory>
         </file>
         <file>
-            <source>${project.basedir}/../C/target/C.jar</source>
+            <source>${project.basedir}/../modules-export-C/target/C.jar</source>
             <outputDirectory>modules/C/main</outputDirectory>
         </file>
     </files>
