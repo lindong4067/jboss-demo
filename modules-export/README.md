@@ -16,12 +16,18 @@ $ java -jar jboss-modules-1.5.2.Final.jar -mp modules A
 
 # Verification
 
-modify modules/system/layers/base/B/main/module.xml, change export to false
+If modify modules/system/layers/base/B/main/module.xml, change export to false
 
 ```xml
 <module name="C" export="false" />
 ```
-rebuild and run, error occurred:
+
+Then invoke Module C in Module A:
+
+```markdown
+new Cast().cast();
+```
+Error will occur in Module A:
 Exception in thread "main" java.lang.NoClassDefFoundError: com/example/modules/export/c/Cast
         at com.examples.modules.export.a.Afirm.afirm(Afirm.java:16)
         at com.examples.modules.export.a.Afirm.main(Afirm.java:23)
@@ -38,4 +44,4 @@ Caused by: java.lang.ClassNotFoundException: com.example.modules.export.c.Cast f
         at org.jboss.modules.ConcurrentClassLoader.loadClass(ConcurrentClassLoader.java:93)
         ... 8 more
 
-
+* Where ever export true or false, that doesn't affect using C in B.

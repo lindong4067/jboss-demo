@@ -8,6 +8,6 @@
     </resources>
 
     <dependencies>
-        <module name="B" />
+        <module name="B" export="true"/>
     </dependencies>
 </module>

@@ -17,6 +17,7 @@
         <module>modules-export-B</module>
         <module>modules-export-C</module>
         <module>modules-export-assembly</module>
+        <module>modules-export-D</module>
     </modules>
     <packaging>pom</packaging>
 
