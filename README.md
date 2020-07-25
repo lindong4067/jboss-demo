@@ -1,6 +1,6 @@
 # jboss-demo
 Examples for JBoss application
 
-Type the following command to build the artifacts.
+## [e]()
 
     mvn clean package wildfly:deploy

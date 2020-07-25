@@ -1,6 +1,6 @@
 # Quick Start
 
-
+## A -> B -> C
 ```shell script
 # compile
 $ cd jboss-demo/modules-export
@@ -14,7 +14,7 @@ $ unzip modules-export-assembly-dist.zip
 $ java -jar jboss-modules-1.5.2.Final.jar -mp modules A
 ```
 
-# Verification
+## Verification
 
 If modify modules/system/layers/base/B/main/module.xml, change export to false
 
@@ -45,3 +45,19 @@ Caused by: java.lang.ClassNotFoundException: com.example.modules.export.c.Cast f
         ... 8 more
 
 * Where ever export true or false, that doesn't affect using C in B.
+
+## D -> A -> B -> C
+
+1.use jboss-service.xml define JMX 
+```xml
+<mbean code="com.example.modules.export.d.Direct" name="jboss-demo.modules-export:service=Direct">
+</mbean>
+```
+2.use jboss-deployment-structure.xml define module
+```xml
+<deployment>
+    <dependencies>
+        <module name="A"/>
+    </dependencies>
+</deployment>
+```
