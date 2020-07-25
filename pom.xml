@@ -26,6 +26,7 @@
         <module>jms</module>
         <module>modules</module>
         <module>modules-export</module>
+        <module>spring-mbean</module>
     </modules>
 
     <dependencyManagement>
