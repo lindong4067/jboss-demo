@@ -6,7 +6,6 @@ public class AppStartup implements AppStartupMBean{
 
     private ClassPathXmlApplicationContext applicationContext;
 
-    @Override
     public void start() {
         System.out.println("App server starting...");
         long before = System.currentTimeMillis();
@@ -16,7 +15,6 @@ public class AppStartup implements AppStartupMBean{
         System.out.println("App server started. spend : " + (after - before) + " ms");
     }
 
-    @Override
     public void stop() {
         System.out.println("App server stopping...");
         long before = System.currentTimeMillis();

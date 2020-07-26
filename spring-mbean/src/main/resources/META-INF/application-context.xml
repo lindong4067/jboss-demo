@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="com.example.demo.mbean"/>
+    <context:annotation-config/>
+
     <bean id="appService" class="com.example.demo.mbean.AppServiceImpl" init-method="init" destroy-method="destroy"/>
+
+    <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter" depends-on="mbeanServer">
+        <property name="beans">
+            <map>
+                <entry key="app.server:service=AppServer1" value-ref="appService"/>
+            </map>
+        </property>
+        <property name="server" ref="mbeanServer"/>
+        <property name="assembler" ref="assembler"/>
+    </bean>
+
+    <bean id="assembler" class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler">
+        <property name="managedInterfaces">
+            <list>
+                <value>com.example.demo.mbean.AppService</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="server" class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="registry">
+        <property name="objectName" value="connector:name=rmi"/>
+        <property name="serviceUrl" value="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/jmxrmi"/>
+    </bean>
+
+    <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+        <property name="port" value="1099"/>
+    </bean>
+
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean"/>
+
+
 </beans>
