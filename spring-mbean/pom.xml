@@ -30,6 +30,10 @@
                 <version>2.2</version>
                 <!-- Enable packaging types and lifecycle bindings. -->
                 <extensions>true</extensions>
+                <configuration>
+                    <outputDirectory>C:\StartPath\wildfly-13.0.0.Final\standalone\deployments</outputDirectory>
+                    <resources>spring-mbean.sar</resources>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>

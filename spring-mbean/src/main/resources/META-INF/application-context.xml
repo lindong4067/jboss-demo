@@ -4,39 +4,108 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-    <context:component-scan base-package="com.example.demo.mbean"/>
-    <context:annotation-config/>
+
+<!--    <context:component-scan base-package="com.example.demo.mbean"/>-->
+<!--    <context:annotation-config/>-->
 
     <bean id="appService" class="com.example.demo.mbean.AppServiceImpl" init-method="init" destroy-method="destroy"/>
 
-    <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter" depends-on="mbeanServer">
+    <bean id="appServiceWithNotification" class="com.example.demo.mbean.AppServiceWithNotification" init-method="init" destroy-method="destroy"/>
+
+    <bean id="appServiceForRemoteInvoke" class="com.example.demo.mbean.AppServiceForRemoteInvoke" init-method="init" destroy-method="destroy"/>
+
+    <bean id="appServiceNotificationListener" class="com.example.demo.mbean.AppServiceNotificationListener"/>
+
+    <bean id="appServiceNotificationFilter" class="com.example.demo.mbean.AppServiceNotificationFilter"/>
+    
+<!--    <bean id="appClient" class="com.example.demo.mbean.AppClientImpl">-->
+<!--        <property name="appServiceLocal" ref="appServiceProxyLocal"/>-->
+<!--        <property name="appServiceRemote" ref="appServiceProxyRemote"/>-->
+<!--        <property name="requestType" value="ResourceDump"/>-->
+<!--    </bean>-->
+
+    <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter">
         <property name="beans">
             <map>
-                <entry key="app.server:service=AppServer1" value-ref="appService"/>
+                <entry key="app.server:service=AppService" value-ref="appService"/>
+                <entry key="app.server:service=AppServiceWithNotification" value-ref="appServiceWithNotification"/>
+                <entry key="app.server:service=AppServiceForRemoteInvoke" value-ref="appServiceForRemoteInvoke"/>
+<!--                <entry key="app.server:service=AppClient" value-ref="appClient"/>-->
             </map>
         </property>
+        <!-- mbeanServer is optional, if not config, auto search. -->
         <property name="server" ref="mbeanServer"/>
         <property name="assembler" ref="assembler"/>
+
+        <!-- Notification configuration type 1 : map   -->
+        <property name="notificationListenerMappings">
+            <map>
+                <entry key="app.server:service=AppServiceForRemoteInvoke">
+                    <bean class="com.example.demo.mbean.AppServiceNotificationListener"/>
+                </entry>
+            </map>
+        </property>
+
+        <!-- Notification configuration type 2 : list map -->
+        <property name="notificationListeners">
+            <list>
+                <bean class="org.springframework.jmx.export.NotificationListenerBean">
+                    <constructor-arg ref="appServiceNotificationListener"/>
+                    <property name="mappedObjectNames">
+                        <list>
+                            <value>app.server:service=AppServiceWithNotification</value>
+                        </list>
+                    </property>
+                    <property name="handback">
+                        <bean class="com.example.demo.mbean.AppServiceNotificationHandback">
+                            <constructor-arg name="message" value="You can do anything what you want here!"/>
+                        </bean>
+                    </property>
+                    <property name="notificationFilter" ref="appServiceNotificationFilter"/>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="assembler" class="org.springframework.jmx.export.assembler.InterfaceBasedMBeanInfoAssembler">
         <property name="managedInterfaces">
             <list>
                 <value>com.example.demo.mbean.AppService</value>
+<!--                <value>com.example.demo.mbean.AppClient</value>-->
             </list>
         </property>
     </bean>
 
-    <bean id="server" class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="registry">
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+        <property name="locateExistingServerIfPossible" value="true"/>
+    </bean>
+
+    <!-- Server side connector config -->
+    <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="registry">
         <property name="objectName" value="connector:name=rmi"/>
-        <property name="serviceUrl" value="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/jmxrmi"/>
+        <property name="serviceUrl" value="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector"/>
     </bean>
 
     <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
         <property name="port" value="1099"/>
     </bean>
 
-    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean"/>
+    <!-- Client side connector config -->
+    <bean id="clientConnector" class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean">
+        <property name="serviceUrl" value="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector"/>
+    </bean>
 
+    <!-- Use local MBeanServer by default -->
+    <bean id="appServiceProxyLocal" class="org.springframework.jmx.access.MBeanProxyFactoryBean">
+        <property name="objectName" value="app.server:service=AppService"/>
+        <property name="proxyInterface" value="com.example.demo.mbean.AppService"/>
+    </bean>
 
+    <!-- By default, the local MBeanServer is located and used, but you can override this and provide an
+    MBeanServerConnection pointing to a remote MBeanServer to cater for proxies pointing to remote MBeans  -->
+    <bean id="appServiceProxyRemote" class="org.springframework.jmx.access.MBeanProxyFactoryBean">
+        <property name="objectName" value="app.server:service=AppServiceForRemoteInvoke"/>
+        <property name="proxyInterface" value="com.example.demo.mbean.AppService"/>
+        <property name="server" ref="clientConnector"/>
+    </bean>
 </beans>

@@ -2,11 +2,11 @@ package com.example.demo.mbean;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class AppStartup implements AppStartupMBean{
+public class AppStartup extends AbstractAppStartup implements AppStartupMBean{
 
     private ClassPathXmlApplicationContext applicationContext;
 
-    public void start() {
+    public void startService() {
         System.out.println("App server starting...");
         long before = System.currentTimeMillis();
         applicationContext = new ClassPathXmlApplicationContext("META-INF/application-context.xml");
@@ -15,7 +15,7 @@ public class AppStartup implements AppStartupMBean{
         System.out.println("App server started. spend : " + (after - before) + " ms");
     }
 
-    public void stop() {
+    public void stopService() {
         System.out.println("App server stopping...");
         long before = System.currentTimeMillis();
         if (applicationContext != null) {
