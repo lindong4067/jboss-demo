@@ -5,6 +5,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!-- Use annotation export mbean. -->
+<!--    <context:mbean-export registration="failOnExisting" server="mbeanServer"/>-->
 <!--    <context:component-scan base-package="com.example.demo.mbean"/>-->
 <!--    <context:annotation-config/>-->
 
@@ -18,11 +20,11 @@
 
     <bean id="appServiceNotificationFilter" class="com.example.demo.mbean.AppServiceNotificationFilter"/>
     
-<!--    <bean id="appClient" class="com.example.demo.mbean.AppClientImpl">-->
-<!--        <property name="appServiceLocal" ref="appServiceProxyLocal"/>-->
-<!--        <property name="appServiceRemote" ref="appServiceProxyRemote"/>-->
-<!--        <property name="requestType" value="ResourceDump"/>-->
-<!--    </bean>-->
+    <bean id="appClient" class="com.example.demo.mbean.AppClientImpl">
+        <property name="appServiceLocal" ref="appServiceProxyLocal"/>
+        <property name="appServiceRemote" ref="appServiceProxyRemote"/>
+        <property name="requestType" value="ResourceDump"/>
+    </bean>
 
     <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter">
         <property name="beans">
@@ -30,7 +32,7 @@
                 <entry key="app.server:service=AppService" value-ref="appService"/>
                 <entry key="app.server:service=AppServiceWithNotification" value-ref="appServiceWithNotification"/>
                 <entry key="app.server:service=AppServiceForRemoteInvoke" value-ref="appServiceForRemoteInvoke"/>
-<!--                <entry key="app.server:service=AppClient" value-ref="appClient"/>-->
+                <entry key="app.server:service=AppClient" value-ref="appClient"/>
             </map>
         </property>
         <!-- mbeanServer is optional, if not config, auto search. -->
@@ -71,7 +73,7 @@
         <property name="managedInterfaces">
             <list>
                 <value>com.example.demo.mbean.AppService</value>
-<!--                <value>com.example.demo.mbean.AppClient</value>-->
+                <value>com.example.demo.mbean.AppClient</value>
             </list>
         </property>
     </bean>
@@ -90,8 +92,8 @@
         <property name="port" value="1099"/>
     </bean>
 
-    <!-- Client side connector config -->
-    <bean id="clientConnector" class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean">
+    <!-- Client side connector config, use depends-on to ensure server startup at first. -->
+    <bean id="clientConnector" class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean" depends-on="serverConnector">
         <property name="serviceUrl" value="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector"/>
     </bean>
 
