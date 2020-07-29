@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <jee:jndi-lookup id="jmsConnectionFactory" jndi-name="java:/JmsXA"/>
+
+    <jee:jndi-lookup id="ineTopic" jndi-name="topic/INEExport"/>
+
+    <bean id="jmsQueueConnectionFactory" class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+        <property name="targetConnectionFactory" ref="jmsConnectionFactory"/>
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsQueueConnectionFactory"/>
+    </bean>
+
+    <bean id="jmsTopicSender" class="com.example.demo.jms.JmsTopicSender">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="topic" ref="ineTopic"/>
+    </bean>
+
+    <bean id="jmsQueueListener" class="com.example.demo.jms.JmsQueueListener"/>
+
+    <bean id="ineListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsQueueConnectionFactory" />
+        <property name="destination" ref="ineTopic" />
+        <property name="messageListener" ref="jmsQueueListener" />
+    </bean>
+
+    <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="beans">
+            <map>
+                <entry key="app.server:service=JmsTopicSender" value-ref="jmsTopicSender"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
