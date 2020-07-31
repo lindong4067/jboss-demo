@@ -21,16 +21,26 @@
         Alternatively, as shown in the following example, set a single dependency on the BOM for the app to depend
         on all the artifacts it manages.
         -->
-        <dependency>
-            <groupId>org.wildfly</groupId>
-            <artifactId>wildfly-jms-client-bom</artifactId>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.client</groupId>
-            <artifactId>jboss-client</artifactId>
-            <version>5.1.0.CR1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jboss.client</groupId>-->
+<!--            <artifactId>jboss-client</artifactId>-->
+<!--            <version>5.1.0.CR1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>javax.jms</groupId>-->
+<!--            <artifactId>javax.jms-api</artifactId>-->
+<!--            <version>2.0.1</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.wildfly</groupId>-->
+<!--            <artifactId>wildfly-ejb-client-bom</artifactId>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.wildfly</groupId>-->
+<!--            <artifactId>wildfly-jms-client-bom</artifactId>-->
+<!--            <type>pom</type>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
