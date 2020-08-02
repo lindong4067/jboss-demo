@@ -30,7 +30,7 @@ public class JMSClient{
             // Set up the namingContext for the JNDI lookup
             final Properties env = new Properties();
             env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-            env.put(Context.PROVIDER_URL, "remote://localhost:8080");
+            env.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
             env.put(Context.SECURITY_PRINCIPAL, "jms");
             env.put(Context.SECURITY_CREDENTIALS, "jms");
 
@@ -44,7 +44,7 @@ public class JMSClient{
             ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(connectionFactoryString);
             log.info("Found connection factory \"" + connectionFactoryString + "\" in JNDI");
 
-            String destinationString = System.getProperty("destination", "jms/queue/TestQueue1");
+            String destinationString = System.getProperty("destination", "jms/queue/test");
             log.info("Attempting to acquire destination \"" + destinationString + "\"");
 
             Destination destination = (Destination) namingContext.lookup(destinationString);

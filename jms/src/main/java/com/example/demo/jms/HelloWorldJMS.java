@@ -10,9 +10,8 @@ public class HelloWorldJMS {
     private Context getContext() throws NamingException {
 
         final Properties env = new Properties();
-        env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-//        env.put(Context.PROVIDER_URL, "remote://localhost:4447");
-        env.put(Context.PROVIDER_URL, "remote://135.252.247.65:4447");
+        env.put(Context.INITIAL_CONTEXT_FACTORY, "org.wildfly.naming.client.WildFlyInitialContextFactory");
+        env.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
         env.put(Context.SECURITY_PRINCIPAL, "jms");
         env.put(Context.SECURITY_CREDENTIALS, "jms");
 
@@ -47,7 +46,6 @@ public class HelloWorldJMS {
             System.out.println("Found destination \"" + destinationString + "\" in JNDI");
 
             // Create the JMS connection, session, producer, and consumer
-            connection = connectionFactory.createConnection();
             connection = connectionFactory.createConnection("jms", "jms");
             System.out.println("create Connection Factory successful");
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
