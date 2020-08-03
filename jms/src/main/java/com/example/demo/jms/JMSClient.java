@@ -15,12 +15,12 @@ public class JMSClient{
 
     private static final String DEFAULT_MESSAGE = "Hello, World!";
     private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-    private static final String DEFAULT_DESTINATION = "jms/queue/TestQueue1";
+    private static final String DEFAULT_DESTINATION = "jms/test/queue"; //jms/test/queue
     private static final String DEFAULT_MESSAGE_COUNT = "3";
     private static final String DEFAULT_USERNAME = "jms";
     private static final String DEFAULT_PASSWORD = "jms";
     private static final String INITIAL_CONTEXT_FACTORY = "org.wildfly.naming.client.WildFlyInitialContextFactory";
-    private static final String PROVIDER_URL = "remote://127.0.0.1:9876";
+    private static final String PROVIDER_URL = "http-remoting://localhost:8080";
 
     public static void main(String[] args) {
         Context namingContext = null;
@@ -29,22 +29,22 @@ public class JMSClient{
 
             // Set up the namingContext for the JNDI lookup
             final Properties env = new Properties();
-            env.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-            env.put(Context.PROVIDER_URL, "http-remoting://localhost:8080");
-            env.put(Context.SECURITY_PRINCIPAL, "jms");
-            env.put(Context.SECURITY_CREDENTIALS, "jms");
+            env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
+            env.put(Context.PROVIDER_URL, PROVIDER_URL);
+            env.put(Context.SECURITY_PRINCIPAL, DEFAULT_USERNAME);
+            env.put(Context.SECURITY_CREDENTIALS, DEFAULT_PASSWORD);
 
             namingContext = new InitialContext(env);
 
             // Perform the JNDI lookups
             log.info("JMS start");
-            String connectionFactoryString = System.getProperty("connection.factory", "jms/RemoteConnectionFactory");
+            String connectionFactoryString = System.getProperty("connection.factory", DEFAULT_CONNECTION_FACTORY);
             log.info("Attempting to acquire connection factory \"" + connectionFactoryString + "\"");
 
             ConnectionFactory connectionFactory = (ConnectionFactory) namingContext.lookup(connectionFactoryString);
             log.info("Found connection factory \"" + connectionFactoryString + "\" in JNDI");
 
-            String destinationString = System.getProperty("destination", "jms/queue/test");
+            String destinationString = System.getProperty("destination", DEFAULT_DESTINATION);
             log.info("Attempting to acquire destination \"" + destinationString + "\"");
 
             Destination destination = (Destination) namingContext.lookup(destinationString);
@@ -53,7 +53,7 @@ public class JMSClient{
             int count = Integer.parseInt(System.getProperty("message.count", DEFAULT_MESSAGE_COUNT));
             String content = System.getProperty("message.content", DEFAULT_MESSAGE);
 
-            try (JMSContext context = connectionFactory.createContext("jms", "jms")) {
+            try (JMSContext context = connectionFactory.createContext(DEFAULT_USERNAME, DEFAULT_PASSWORD)) {
                 log.info("Sending " + count + " messages with content: " + content);
 
                 // Send the specified number of messages
