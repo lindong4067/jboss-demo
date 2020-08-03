@@ -27,4 +27,8 @@ public class MessageProducer {
             }
         });
     }
+
+    public void sendMessageWithDestination(String destination, String message) {
+        jmsTemplate.send(destination, session -> session.createTextMessage(message));
+    }
 }

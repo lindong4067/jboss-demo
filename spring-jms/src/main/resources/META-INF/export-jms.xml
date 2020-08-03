@@ -6,6 +6,10 @@
                 <entry name="topic/INEExport"/>
                 <entry name="java:jboss/exported/topic/INEExport"/>
             </jms-topic>
+            <jms-topic name="ineRemoteTopic">
+                <entry name="topic/remote/INEExport"/>
+                <entry name="java:jboss/exported/topic/remote/INEExport"/>
+            </jms-topic>
         </jms-destinations>
     </server>
 </messaging-deployment>
