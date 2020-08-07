@@ -68,3 +68,5 @@ Examples for JBoss application
 
 
  #### JBoss demo: Spring MBean
+ 
+ twiddle
