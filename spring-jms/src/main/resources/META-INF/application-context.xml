@@ -11,6 +11,39 @@
 
 <!--    <jee:jndi-lookup id="ineTopic" jndi-name="topic/INEExport"/>-->
 
+    <!--  AMS jms  -->
+
+    <bean id="jndiTemplate" class="org.springframework.jndi.JndiTemplate">
+        <property name="environment">
+            <props>
+                <prop key="java.naming.factory.initial">
+                    org.jboss.naming.remote.client.InitialContextFactory
+                </prop>
+                <prop key="java.naming.provider.url">
+                    remote://135.252.247.37:4447
+                </prop>
+                <prop key="java.naming.security.principal">
+                    system
+                </prop>
+                <prop key="java.naming.security.credentials">
+                    4x5@system
+                </prop>
+                <prop key="jboss.naming.client.connect.options.org.xnio.Options.SASL_POLICY_NOPLAINTEXT">
+                    false
+                </prop>
+                <prop key="jboss.naming.client.remote.connectionprovider.create.options.org.xnio.Options.SSL_ENABLED">
+                    true
+                </prop>
+                <prop key="jboss.naming.client.connect.options.org.xnio.Options.SSL_STARTTLS">
+                    true
+                </prop>
+                <prop key="jboss.naming.client.connect.timeout">
+                    30000
+                </prop>
+            </props>
+        </property>
+    </bean>
+
     <!--  Remote jms  -->
 
     <bean id="messageProducer" class="com.example.demo.jms.MessageProducer">

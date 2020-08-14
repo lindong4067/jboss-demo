@@ -15,12 +15,12 @@ public class JMSClient{
 
     private static final String DEFAULT_MESSAGE = "Hello, World!";
     private static final String DEFAULT_CONNECTION_FACTORY = "jms/RemoteConnectionFactory";
-    private static final String DEFAULT_DESTINATION = "jms/test/queue"; //jms/test/queue
+    private static final String DEFAULT_DESTINATION = "topic/PonnbiInventoryEvent"; //jms/test/queue
     private static final String DEFAULT_MESSAGE_COUNT = "3";
-    private static final String DEFAULT_USERNAME = "jms";
-    private static final String DEFAULT_PASSWORD = "jms";
+    private static final String DEFAULT_USERNAME = "system";
+    private static final String DEFAULT_PASSWORD = "4x5@system";
     private static final String INITIAL_CONTEXT_FACTORY = "org.wildfly.naming.client.WildFlyInitialContextFactory";
-    private static final String PROVIDER_URL = "http-remoting://localhost:8080";
+    private static final String PROVIDER_URL = "remote://135.252.247.37:4447";
 
     public static void main(String[] args) {
         Context namingContext = null;
