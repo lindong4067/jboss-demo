@@ -28,6 +28,7 @@
         <module>modules-export</module>
         <module>spring-mbean</module>
         <module>spring-jms</module>
+        <module>jgroups-chat</module>
     </modules>
 
     <dependencyManagement>
