@@ -12,4 +12,12 @@
     <artifactId>jgroups-chat</artifactId>
     <name>JBoss demo: JGroups chat</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jgroups</groupId>
+            <artifactId>jgroups</artifactId>
+            <version>4.0.11.Final</version>
+        </dependency>
+    </dependencies>
+
 </project>
