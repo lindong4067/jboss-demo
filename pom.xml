@@ -29,6 +29,7 @@
         <module>spring-mbean</module>
         <module>spring-jms</module>
         <module>jgroups-chat</module>
+        <module>jgroups-counter</module>
     </modules>
 
     <dependencyManagement>
