@@ -11,5 +11,6 @@ public class SimpleChat {
 
     public static void main(String[] args) throws Exception {
         new SimpleChat().start();
+        System.out.println("Hello");
     }
 }
