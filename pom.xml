@@ -30,6 +30,7 @@
         <module>spring-jms</module>
         <module>jgroups-chat</module>
         <module>jgroups-counter</module>
+        <module>jgroups-execution</module>
     </modules>
 
     <dependencyManagement>
