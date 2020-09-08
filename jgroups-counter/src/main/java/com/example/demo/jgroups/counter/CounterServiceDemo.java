@@ -44,11 +44,22 @@ public class CounterServiceDemo {
         boolean looping = true;
         while (looping) {
             try {
-                int key = Util.keyPress("[1] Increment [2] Decrement [3] Compare and set\n" +
-                        "[4] Create counter [5] Delete counter\n" +
-                        "[6] Print counters [7] Get counter\n" +
-                        "[8] Increment 1M times [9] Dump pending requests [x] Exit\n");
+                int key = Util.keyPress(
+                        "[1] Increment\n" +
+                        "[2] Decrement \n" +
+                        "[3] Compare and set\n" +
+                        "[4] Create counter \n" +
+                        "[5] Delete counter\n" +
+                        "[6] Print counters \n" +
+                        "[7] Get counter\n" +
+                        "[8] Increment 1M times \n" +
+                        "[9] Dump pending requests \n" +
+                        "[0] Select counter \n" +
+                        "[x] Exit\n");
                 switch (key) {
+                    case '0':
+                        String selectCounter = Util.readStringFromStdin("-- input select counter: ");
+                        counter = counterService.getOrCreateCounter(selectCounter, 1);
                     case '1':
                         long val = counter.incrementAndGet();
                         System.out.println("counter: " + val);
@@ -68,8 +79,8 @@ public class CounterServiceDemo {
                         }
                         break;
                     case '4':
-                        String counter_name=Util.readStringFromStdin("counter name: ");
-                        counter=counterService.getOrCreateCounter(counter_name, 1);
+                        String counter_name = Util.readStringFromStdin("counter name: ");
+                        counter = counterService.getOrCreateCounter(counter_name, 1);
                         break;
                     case '5':
                         counter_name=Util.readStringFromStdin("counter name: ");
@@ -79,7 +90,8 @@ public class CounterServiceDemo {
                         System.out.println("Counters (current=" + counter.getName() + "):\n\n" + counterService.printCounters());
                         break;
                     case '7':
-                        counter.get();
+                        long l = counter.get();
+                        System.out.println(l);
                         break;
                     case '8':
                         int NUM = Util.readIntFromStdin("num: ");
