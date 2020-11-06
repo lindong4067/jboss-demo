@@ -27,7 +27,7 @@
         <module>modules</module>
         <module>modules-export</module>
         <module>spring-mbean</module>
-        <module>spring-jms</module>
+<!--        <module>spring-jms</module> deploy to wildfly is not support-->
         <module>jgroups-chat</module>
         <module>jgroups-counter</module>
         <module>jgroups-execution</module>
