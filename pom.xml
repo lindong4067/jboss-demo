@@ -23,7 +23,7 @@
         <module>jakarta-rest</module>
         <module>cdi-servlet</module>
         <module>cdi-rest</module>
-        <module>jms</module>
+<!--        <module>jms</module> jboss-client.jar in local -->
         <module>modules</module>
         <module>modules-export</module>
         <module>spring-mbean</module>
